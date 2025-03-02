@@ -1,0 +1,6 @@
+{
+  "model": {
+      "type" : "minecraft:model",
+      "model": "fixsamplethingsmod:block/warped_nylium_path"
+  }
+}
