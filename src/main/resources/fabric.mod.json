@@ -2,14 +2,14 @@
 	"schemaVersion": 1,
 	"id": "fixsamplethingsmod",
 	"version": "${version}",
-	"name": "Fix Sample Things Mod",
-	"description": "Fixing minor, tiresome things in Minecraft ",
+	"name": "Fix Simple Things Mod",
+	"description": "A lightweight Minecraft mod that fixes small but frustrating issues and inconsistencies in the base game.",
 	"authors": [
 		"Bence2107!"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Bence2107/Fix_Simple_Things_Mod/"
 	},
 	"license": "MIT",
 	"icon": "assets/fixsamplethingsmod/icon.png",
@@ -29,7 +29,7 @@
 		"fixsamplethingsmod.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.16.10",
+		"fabricloader": ">=0.16.9",
 		"minecraft": "~1.21.4",
 		"java": ">=21",
 		"fabric-api": "*"
