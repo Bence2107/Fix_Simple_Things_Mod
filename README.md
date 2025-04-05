@@ -16,7 +16,7 @@ This mod only works on the client-side. Do  **not** use it on public servers, as
 You can now right-click Nylium blocks with a shovel to create **Nylium Path** blocks — just like Dirt or Grass!  
 The new block retains Nylium-like properties, but looks and behaves like a proper path.
 
-### 🚧 Stone & Cobblestone Can Be Smelted in "Blast Furnace" **(This will be changed to a custom blokk)**
+### 🚧 Stone & Cobblestone Can Be Smelted in "Blast Furnace" **(This will be changed to a custom block)**
 Blast furnaces can now smelt **Stone** into **Smooth Stone**, as they logically should.  
 No more switching back to the regular furnace just for that one item!
 
