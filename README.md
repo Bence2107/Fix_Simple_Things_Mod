@@ -30,10 +30,3 @@ Here are a few vanilla Minecraft quirks that might get addressed in future updat
 - 🧭 **Clocks and compasses are useless in item frames in the Nether.** Some say... they scream for fixing.
 
 ---
-
-## 🧪 For Developers
-
-Want to contribute or suggest a fix? Clone the repo and join the fun:
-
-```bash
-git clone https://github.com/Bence2107/Fix_Simple_Things_Mod.git
