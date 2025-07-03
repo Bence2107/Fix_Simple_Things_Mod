@@ -3,7 +3,7 @@
 	"package": "net.bence2107.fixsamplethingsmod.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"ArmorStandEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
