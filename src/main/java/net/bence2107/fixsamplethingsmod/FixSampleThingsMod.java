@@ -1,6 +1,5 @@
 package net.bence2107.fixsamplethingsmod;
 
-import net.bence2107.fixsamplethingsmod.block.ModBlockEntities;
 import net.bence2107.fixsamplethingsmod.block.ModBlocks;
 import net.bence2107.fixsamplethingsmod.block.ModBlockActions;
 import net.fabricmc.api.ModInitializer;
@@ -16,7 +15,6 @@ public class FixSampleThingsMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModBlocks.registerModBlocks();
-		ModBlockEntities.registerBlockEntities();
 		ModBlockActions.registerShowelActions();
 	}
 }
