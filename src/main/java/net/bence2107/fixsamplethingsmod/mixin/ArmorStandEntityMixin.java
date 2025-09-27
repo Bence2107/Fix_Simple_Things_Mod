@@ -2,9 +2,10 @@ package net.bence2107.fixsamplethingsmod.mixin;
 
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.EulerAngle;
@@ -21,9 +22,14 @@ public abstract class ArmorStandEntityMixin  {
     @Unique
     private int pose_index = 0;
 
-    @Inject(method = "<init>", at = @At("TAIL"))
+    @Inject(method = "<init>*", at = @At("TAIL"))
     private void onInit(CallbackInfo ci) {
-        ((ArmorStandEntity) (Object) this).setShowArms(true);
+       getInstance().setShowArms(true);
+    }
+
+    @Unique
+    private ArmorStandEntity getInstance() {
+        return (ArmorStandEntity) (Object) this;
     }
 
     @Inject(method = "interactAt", at = @At("HEAD"), cancellable = true)
@@ -31,8 +37,8 @@ public abstract class ArmorStandEntityMixin  {
 
         if (!player.isSneaking() || hand != Hand.MAIN_HAND) return;
 
-        if (!((ArmorStandEntity) (Object) this).getWorld().isClient) {
-            ArmorStandEntity armor = (ArmorStandEntity) (Object) this;
+        if (!getInstance().getWorld().isClient) {
+            ArmorStandEntity armor = getInstance();
 
             if (player.isSneaking() && player.getStackInHand(hand).isEmpty()) {
                 pose_index = (pose_index + 1) % 13;
@@ -47,19 +53,17 @@ public abstract class ArmorStandEntityMixin  {
         }
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putInt("CustomPoseIndex", pose_index);
-
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    private void writeCustomData(WriteView view, CallbackInfo ci) {
+        view.putInt("CustomPoseIndex", pose_index);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains("CustomPoseIndex")) {
-            pose_index = nbt.getInt("CustomPoseIndex");
-        }
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void readCustomData(ReadView view, CallbackInfo ci) {
+        pose_index = view.getInt("CustomPoseIndex", 0);
     }
 
+    @Unique
     private void applyPose(ArmorStandEntity stand, int index) {
         stand.setBodyRotation(new EulerAngle(0f, 0f, 0f));
         stand.setHeadRotation(new EulerAngle(0f, 0f, 0f));
@@ -153,5 +157,3 @@ public abstract class ArmorStandEntityMixin  {
         }
     }
 }
-
-
