@@ -12,10 +12,10 @@ import net.minecraft.util.Identifier;
 
 public class ModBlockEntities {
     public static final BlockEntityType<StoneOvenBlockEntity> STONE_OVEN_BLOCK_ENTITY =
-            register(StoneOvenBlockEntity::new, "stone_oven_block_entity", ModBlocks.STONE_OVEN);
+            register(StoneOvenBlockEntity::new, ModBlocks.STONE_OVEN);
 
-    private static <T extends BlockEntity> BlockEntityType<T> register(FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory, String path, Block... blocks) {
-        Identifier id = Identifier.of(FixSampleThingsMod.MOD_ID, path);
+    private static <T extends BlockEntity> BlockEntityType<T> register(FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory, Block... blocks) {
+        Identifier id = Identifier.of(FixSampleThingsMod.MOD_ID, "stone_oven_block_entity");
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, FabricBlockEntityTypeBuilder.<T>create(entityFactory, blocks).build());
     }
 
