@@ -12,6 +12,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -19,6 +20,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,19 +28,20 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
     public static final MapCodec<StoneSmelterBlock> CODEC = createCodec(StoneSmelterBlock::new);
     public static final BooleanProperty LIT = Properties.LIT;
 
+
     public StoneSmelterBlock(Settings settings) {
-        super(settings.luminance(state -> state.get(LIT) ? 15 : 0));
+        super(settings.luminance(state -> state.get(LIT) ? 10 : 0));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(LIT, FACING);
+        builder.add(LIT, Properties.HORIZONTAL_FACING);
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState().
-                with(FACING, ctx.getPlayerLookDirection().getOpposite()).
+                with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite()).
                 with(LIT, false);
     }
 
@@ -89,5 +92,39 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
                 } : null;
     }
 
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (state.get(LIT)) {
+            double x = pos.getX() + 0.5;
+            double y = pos.getY();
+            double z = pos.getZ() + 0.5;
 
+            double offset = 0.52;
+            double spread = random.nextDouble() * 0.6 - 0.3;
+
+            switch (state.get(FACING)) {
+                case WEST -> {
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x - offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x - offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
+                }
+                case EAST -> {
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
+                }
+                case NORTH -> {
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + spread, y + random.nextDouble() * 6.0 / 16.0, z - offset, 0.0, 0.0, 0.0);
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + spread, y + random.nextDouble() * 6.0 / 16.0, z - offset, 0.0, 0.0, 0.0);
+                }
+                case SOUTH -> {
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + spread, y + random.nextDouble() * 6.0 / 16.0, z + offset, 0.0, 0.0, 0.0);
+                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + spread, y + random.nextDouble() * 6.0 / 16.0, z + offset, 0.0, 0.0, 0.0);
+                }
+            }
+
+            if (random.nextDouble() < 0.1) {
+                world.playSoundClient(x, y, z, net.minecraft.sound.SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            }
+        }
+
+    }
 }
