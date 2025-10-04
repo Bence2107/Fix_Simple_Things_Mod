@@ -1,7 +1,7 @@
 package net.bence2107.fixsamplethingsmod.block;
 
 import net.bence2107.fixsamplethingsmod.FixSampleThingsMod;
-import net.bence2107.fixsamplethingsmod.block.entities.StoneOvenBlockEntity;
+import net.bence2107.fixsamplethingsmod.block.entities.StoneSmelterBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,8 +11,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModBlockEntities {
-    public static final BlockEntityType<StoneOvenBlockEntity> STONE_OVEN_BLOCK_ENTITY =
-            register(StoneOvenBlockEntity::new, ModBlocks.STONE_OVEN);
+    public static final BlockEntityType<StoneSmelterBlockEntity> STONE_SMELTER_BLOCK_ENTITY =
+            register(StoneSmelterBlockEntity::new, ModBlocks.STONE_SMELTER);
 
     private static <T extends BlockEntity> BlockEntityType<T> register(FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory, Block... blocks) {
         Identifier id = Identifier.of(FixSampleThingsMod.MOD_ID, "stone_oven_block_entity");

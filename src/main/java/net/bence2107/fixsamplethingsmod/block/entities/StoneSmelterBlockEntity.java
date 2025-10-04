@@ -1,6 +1,8 @@
 package net.bence2107.fixsamplethingsmod.block.entities;
 
 import net.bence2107.fixsamplethingsmod.block.ModBlockEntities;
+import net.bence2107.fixsamplethingsmod.block.custom.StoneSmelterBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,15 +16,15 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
-public class StoneOvenBlockEntity extends AbstractFurnaceBlockEntity {
+public class StoneSmelterBlockEntity extends AbstractFurnaceBlockEntity {
 
-    public StoneOvenBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.STONE_OVEN_BLOCK_ENTITY, pos, state, RecipeType.SMELTING);
+    public StoneSmelterBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.STONE_SMELTER_BLOCK_ENTITY, pos, state, RecipeType.SMELTING);
     }
 
     @Override
     protected Text getContainerName() {
-       return Text.of("Stone Oven");
+       return Text.of("Stone Smelter");
     }
 
     @Override
@@ -37,12 +39,17 @@ public class StoneOvenBlockEntity extends AbstractFurnaceBlockEntity {
 
     public void tick(ServerWorld world, BlockPos pos, BlockState state) {
         ItemStack inputStack = this.getStack(0);
+        boolean isBurning = this.propertyDelegate.get(0) > 0;
+
+        if (state.getBlock() instanceof StoneSmelterBlock && state.get(StoneSmelterBlock.LIT) != isBurning) {
+            world.setBlockState(pos, state.with(StoneSmelterBlock.LIT, isBurning), Block.NOTIFY_ALL);
+        }
 
         if (!inputStack.isEmpty() && !isStoneItem(inputStack)) {
             return;
         }
 
-        this.propertyDelegate.set(3, 75);
+        this.propertyDelegate.set(3, 135);
 
         AbstractFurnaceBlockEntity.tick(world, pos, state, this);
     }
@@ -72,6 +79,4 @@ public class StoneOvenBlockEntity extends AbstractFurnaceBlockEntity {
                 itemId.contains("calcite") ||
                 itemId.contains("dripstone");
     }
-
-
 }
