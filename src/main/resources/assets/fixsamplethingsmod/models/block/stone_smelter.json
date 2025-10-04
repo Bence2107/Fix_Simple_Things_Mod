@@ -2,7 +2,7 @@
   "parent": "block/cube",
   "textures": {
     "up": "fixsamplethingsmod:block/stone_smelter_up",
-    "down": "fixsamplethingsmod:block/stone_smelter_side",
+    "down": "fixsamplethingsmod:block/stone_smelter_down",
     "north": "fixsamplethingsmod:block/stone_smelter_front",
     "south": "fixsamplethingsmod:block/stone_smelter_side",
     "east": "fixsamplethingsmod:block/stone_smelter_side",
