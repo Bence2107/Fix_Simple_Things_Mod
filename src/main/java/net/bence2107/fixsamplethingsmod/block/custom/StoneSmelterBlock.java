@@ -12,7 +12,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -20,6 +19,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -91,40 +91,39 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
                     }
                 } : null;
     }
-
-    @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if (state.get(LIT)) {
             double x = pos.getX() + 0.5;
-            double y = pos.getY();
+            double y = pos.getY() + 0.45;
             double z = pos.getZ() + 0.5;
 
             double offset = 0.52;
-            double spread = random.nextDouble() * 0.6 - 0.3;
+            double spread = random.nextDouble() * 0.3 - 0.15;
 
-            switch (state.get(FACING)) {
-                case WEST -> {
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x - offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x - offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
-                }
-                case EAST -> {
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + offset, y + random.nextDouble() * 6.0 / 16.0, z + spread, 0.0, 0.0, 0.0);
-                }
-                case NORTH -> {
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + spread, y + random.nextDouble() * 6.0 / 16.0, z - offset, 0.0, 0.0, 0.0);
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + spread, y + random.nextDouble() * 6.0 / 16.0, z - offset, 0.0, 0.0, 0.0);
-                }
-                case SOUTH -> {
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + spread, y + random.nextDouble() * 6.0 / 16.0, z + offset, 0.0, 0.0, 0.0);
-                    world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + spread, y + random.nextDouble() * 6.0 / 16.0, z + offset, 0.0, 0.0, 0.0);
-                }
-            }
+            // Add velocity for particle motion
+            double velocityX = random.nextDouble() * 0.02 - 0.01;
+            double velocityY = random.nextDouble() * 0.05;
+            double velocityZ = random.nextDouble() * 0.02 - 0.01;
 
-            if (random.nextDouble() < 0.1) {
-                world.playSoundClient(x, y, z, net.minecraft.sound.SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            // Calculate position and velocity based on facing
+            Direction facing = state.get(FACING);
+            double frontX = x + facing.getOffsetX() * offset + (facing.getAxis() == Direction.Axis.Z ? spread : 0);
+            double frontY = y + spread;
+            double frontZ = z + facing.getOffsetZ() * offset + (facing.getAxis() == Direction.Axis.X ? spread : 0);
+
+            double velX = velocityX + facing.getOffsetX() * 0.02;
+            double velZ = velocityZ + facing.getOffsetZ() * 0.02;
+
+            // Front face particles
+            world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, frontX, frontY, frontZ, velX, velocityY, velZ);
+            world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, frontX, frontY, frontZ, velX, velocityY * 0.5, velZ);
+
+            // Top particles (chimney smoke/flames)
+            double topSpread = random.nextDouble() * 0.4 - 0.2;
+            world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + topSpread, y + 0.5, z + topSpread, velocityX, velocityY, velocityZ);
+            if (random.nextFloat() < 0.5f) {
+                world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + topSpread, y + 0.5, z + topSpread, velocityX, velocityY * 0.3, velocityZ);
             }
         }
-
     }
 }

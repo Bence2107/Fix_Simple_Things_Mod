@@ -64,19 +64,10 @@ public class StoneSmelterBlockEntity extends AbstractFurnaceBlockEntity {
         // List of allowed stone-related items
         return itemId.contains("stone") ||
                 itemId.contains("cobble") ||
-                itemId.contains("deepslate") ||
                 itemId.contains("basalt") ||
                 itemId.contains("netherrack") ||
                 itemId.contains("sandstone") ||
-                itemId.contains("terracotta") ||
-                itemId.contains("clay") ||
-                itemId.contains("brick") ||
                 itemId.contains("quartz_block") ||
-                itemId.contains("granite") ||
-                itemId.contains("diorite") ||
-                itemId.contains("andesite") ||
-                itemId.contains("tuff") ||
-                itemId.contains("calcite") ||
-                itemId.contains("dripstone");
+                itemId.contains("calcite");
     }
 }
