@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,lit=false": { "model": "fixsamplethingsmod:block/stone_smelter" },
+    "facing=north,lit=true": { "model": "fixsamplethingsmod:block/stone_smelter_on" },
+    "facing=south,lit=false": { "model": "fixsamplethingsmod:block/stone_smelter" },
+    "facing=south,lit=true": { "model": "fixsamplethingsmod:block/stone_smelter_on" },
+    "facing=east,lit=false": { "model": "fixsamplethingsmod:block/stone_smelter" },
+    "facing=east,lit=true": { "model": "fixsamplethingsmod:block/stone_smelter_on" },
+    "facing=west,lit=false": { "model": "fixsamplethingsmod:block/stone_smelter" },
+    "facing=west,lit=true": { "model": "fixsamplethingsmod:block/stone_smelter_on" }
+  }
+}
