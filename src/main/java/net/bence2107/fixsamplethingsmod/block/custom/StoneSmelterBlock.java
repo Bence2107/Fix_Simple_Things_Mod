@@ -117,13 +117,6 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
             // Front face particles
             world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, frontX, frontY, frontZ, velX, velocityY, velZ);
             world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, frontX, frontY, frontZ, velX, velocityY * 0.5, velZ);
-
-            // Top particles (chimney smoke/flames)
-            double topSpread = random.nextDouble() * 0.4 - 0.2;
-            world.addParticleClient(net.minecraft.particle.ParticleTypes.SMOKE, x + topSpread, y + 0.5, z + topSpread, velocityX, velocityY, velocityZ);
-            if (random.nextFloat() < 0.5f) {
-                world.addParticleClient(net.minecraft.particle.ParticleTypes.FLAME, x + topSpread, y + 0.5, z + topSpread, velocityX, velocityY * 0.3, velocityZ);
-            }
         }
     }
 }
