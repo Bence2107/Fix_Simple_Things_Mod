@@ -19,11 +19,14 @@ public abstract class SplashRenderMixin {
     @Inject(method = "init", at = @At("RETURN"))
     private void replaceAllSplashes(CallbackInfo ci) {
         String[] customSplashes = {
-                "Almost everyone passes through, with 'thime'",
+                "Almost everyone passes through, by 'thime'",
+                "Factorial hurts very much",
+                "One strategy dominates the other.",
+                "Never erode a cat"
         };
 
         Random random = new Random();
-        if (random.nextFloat() < 0.35f) {
+        if (random.nextFloat() < 0.1f) {
             String customSplash = customSplashes[random.nextInt(customSplashes.length)];
             this.setSplashText(new SplashTextRenderer(customSplash));
         }
