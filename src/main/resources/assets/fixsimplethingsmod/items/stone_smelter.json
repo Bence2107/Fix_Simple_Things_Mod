@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type" : "minecraft:model",
+    "model": "fixsimplethingsmod:block/stone_smelter"
+  }
+}

@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "fixsamplethingsmod",
+	"id": "fixsimplethingsmod",
 	"version": "${version}",
 	"name": "Fix Simple Things Mod",
 	"description": "A lightweight Minecraft mod that fixes small but frustrating issues and inconsistencies in the base game.",
@@ -12,21 +12,21 @@
 		"sources": "https://github.com/Bence2107/Fix_Simple_Things_Mod/"
 	},
 	"license": "MIT",
-	"icon": "assets/fixsamplethingsmod/icon.png",
+	"icon": "assets/fixsimplethingsmod/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.bence2107.fixsamplethingsmod.FixSampleThingsMod"
+          "net.bence2107.fixsimplethingsmod.FixSimpleThingsMod"
 		],
 		"client": [
-			"net.bence2107.fixsamplethingsmod.FixSampleThingsModClient"
+			"net.bence2107.fixsimplethingsmod.FixSimpleThingsModClient"
 		],
 		"fabric-datagen": [
-			"net.bence2107.fixsamplethingsmod.FixSampleThingsModDataGenerator"
+			"net.bence2107.fixsimplethingsmod.FixSimpleThingsModDataGenerator"
 		]
 	},
 	"mixins": [
-		"fixsamplethingsmod.mixins.json"
+		"fixsimplethingsmod.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.17.2",
