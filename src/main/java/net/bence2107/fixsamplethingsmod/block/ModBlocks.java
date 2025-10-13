@@ -18,15 +18,23 @@ import net.minecraft.util.Identifier;
 
 public class ModBlocks {
     public static final Block WARPED_NYLIUM_PATH = registerBlock("warped_nylium_path",
-            new NyliumPathBlock(AbstractBlock.Settings.copy(Blocks.WARPED_NYLIUM).registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FixSampleThingsMod.MOD_ID,"warped_nylium_path")))));
+            new NyliumPathBlock(copySettings(Blocks.WARPED_NYLIUM, "warped_nylium_path")));
     public static final Block CRIMSON_NYLIUM_PATH = registerBlock("crimson_nylium_path",
-            new NyliumPathBlock(AbstractBlock.Settings.copy(Blocks.CRIMSON_NYLIUM).registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FixSampleThingsMod.MOD_ID,"crimson_nylium_path")))));
+            new NyliumPathBlock(copySettings(Blocks.CRIMSON_NYLIUM, "crimson_nylium_path")));
     public static final Block STONE_SMELTER = registerBlock("stone_smelter",
-            new StoneSmelterBlock(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FixSampleThingsMod.MOD_ID,"stone_smelter")))));
+            new StoneSmelterBlock(createSettings("stone_smelter")));
 
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name,block);
         return Registry.register(Registries.BLOCK, Identifier.of(FixSampleThingsMod.MOD_ID,name),block);
+    }
+
+    private static AbstractBlock.Settings createSettings(String name) {
+        return AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FixSampleThingsMod.MOD_ID,name)));
+    }
+
+    private static AbstractBlock.Settings copySettings(Block blockFrom, String name) {
+        return AbstractBlock.Settings.copy(blockFrom).registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(FixSampleThingsMod.MOD_ID,name)));
     }
 
     private static void registerBlockItem(String name, Block block){
