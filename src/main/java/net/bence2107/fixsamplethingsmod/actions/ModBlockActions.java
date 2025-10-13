@@ -1,5 +1,6 @@
-package net.bence2107.fixsamplethingsmod.block;
+package net.bence2107.fixsamplethingsmod.actions;
 
+import net.bence2107.fixsamplethingsmod.block.ModBlocks;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -31,9 +32,10 @@ public class ModBlockActions {
         });
     }
 
-    public static void registerShowelActions(){
+    public static void registerActions(){
+        //Showel Actions:
         registerShowelAction(Blocks.FARMLAND,Blocks.DIRT_PATH);
-        registerShowelAction(Blocks.WARPED_NYLIUM,ModBlocks.WARPED_NYLIUM_PATH);
+        registerShowelAction(Blocks.WARPED_NYLIUM, ModBlocks.WARPED_NYLIUM_PATH);
         registerShowelAction(Blocks.CRIMSON_NYLIUM,ModBlocks.CRIMSON_NYLIUM_PATH);
     }
 }
