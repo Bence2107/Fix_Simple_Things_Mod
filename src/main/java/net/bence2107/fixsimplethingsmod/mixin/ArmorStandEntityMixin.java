@@ -37,14 +37,14 @@ public abstract class ArmorStandEntityMixin  {
 
         if (!player.isSneaking() || hand != Hand.MAIN_HAND) return;
 
-        if (!getInstance().getWorld().isClient) {
+        if (!getInstance().getEntityWorld().isClient()) {
             ArmorStandEntity armor = getInstance();
 
             if (player.isSneaking() && player.getStackInHand(hand).isEmpty()) {
                 pose_index = (pose_index + 1) % 13;
                 applyPose(armor, pose_index);
 
-                armor.getWorld().playSound(null, armor.getBlockPos(),
+                armor.getEntityWorld().playSound(null, armor.getBlockPos(),
                         SoundEvents.ENTITY_ARMOR_STAND_PLACE, SoundCategory.PLAYERS, 1f, 1f);
                 player.swingHand(hand);
 
@@ -52,6 +52,7 @@ public abstract class ArmorStandEntityMixin  {
             }
         }
     }
+
 
     @Inject(method = "writeCustomData", at = @At("TAIL"))
     private void writeCustomData(WriteView view, CallbackInfo ci) {

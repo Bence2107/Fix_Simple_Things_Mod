@@ -58,7 +58,7 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!world.isClient) {
+        if (!world.isClient()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
             if (blockEntity instanceof StoneSmelterBlockEntity) {
@@ -80,7 +80,7 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (world.isClient) {
+        if (world.isClient()){
             return null;
         }
 
