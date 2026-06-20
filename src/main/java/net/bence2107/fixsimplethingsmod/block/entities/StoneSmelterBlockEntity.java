@@ -2,56 +2,54 @@ package net.bence2107.fixsimplethingsmod.block.entities;
 
 import net.bence2107.fixsimplethingsmod.block.ModBlockEntities;
 import net.bence2107.fixsimplethingsmod.block.custom.StoneSmelterBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.FuelRegistry;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.Registries;
-import net.minecraft.screen.FurnaceScreenHandler;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.block.entity.FuelValues;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.inventory.FurnaceMenu;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
+import net.minecraft.core.BlockPos;
+import org.jetbrains.annotations.NotNull;
 
 public class StoneSmelterBlockEntity extends AbstractFurnaceBlockEntity {
-
     public StoneSmelterBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.STONE_SMELTER_BLOCK_ENTITY, pos, state, RecipeType.SMELTING);
     }
 
     @Override
-    protected Text getContainerName() {
-       return Text.of("Stone Smelter");
+    protected @NotNull Component getDefaultName() {
+        return Component.literal("Stone Smelter");
     }
 
     @Override
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-       return new FurnaceScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
+    protected @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
+        return new FurnaceMenu(syncId, playerInventory, this, this.dataAccess);
     }
 
     @Override
-    protected int getFuelTime(FuelRegistry fuelRegistry, ItemStack stack) {
-        return super.getFuelTime(fuelRegistry, stack);
+    protected int getBurnDuration(FuelValues fuelValues, ItemStack stack) {
+        return super.getBurnDuration(fuelValues, stack);
     }
 
-    public void tick(ServerWorld world, BlockPos pos, BlockState state) {
-        ItemStack inputStack = this.getStack(0);
-        boolean isBurning = this.propertyDelegate.get(0) > 0;
+    public void tick(ServerLevel world, BlockPos pos, BlockState state) {
+        ItemStack inputStack = this.getItem(0);
+        boolean isBurning = this.dataAccess.get(AbstractFurnaceBlockEntity.DATA_LIT_TIME) > 0;
 
-        if (state.getBlock() instanceof StoneSmelterBlock && state.get(StoneSmelterBlock.LIT) != isBurning) {
-            world.setBlockState(pos, state.with(StoneSmelterBlock.LIT, isBurning), Block.NOTIFY_ALL);
+        if (state.getBlock() instanceof StoneSmelterBlock && state.getValue(StoneSmelterBlock.LIT) != isBurning) {
+            world.setBlock(pos, state.setValue(StoneSmelterBlock.LIT, isBurning), Block.UPDATE_ALL);
         }
 
         if (!inputStack.isEmpty() && !isStoneItem(inputStack)) {
             return;
         }
 
-        this.propertyDelegate.set(3, 135);
-
-        AbstractFurnaceBlockEntity.tick(world, pos, state, this);
+        AbstractFurnaceBlockEntity.serverTick(world, pos, state, this);
     }
 
     private boolean isStoneItem(ItemStack stack) {
@@ -59,9 +57,8 @@ public class StoneSmelterBlockEntity extends AbstractFurnaceBlockEntity {
             return false;
         }
 
-        String itemId = Registries.ITEM.getId(stack.getItem()).toString();
+        String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
 
-        // List of allowed stone-related items
         return itemId.contains("stone") ||
                 itemId.contains("cobble") ||
                 itemId.contains("basalt") ||
