@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/dirt_path",
+  "textures": {
+    "particle": "minecraft:block/crimson_nylium",
+    "up": "minecraft:block/dirt_path_top",
+    "side": "fixsimplethingsmod:block/crimson_nylium_path_side",
+    "bottom": "minecraft:block/netherrack"
+  }
+}

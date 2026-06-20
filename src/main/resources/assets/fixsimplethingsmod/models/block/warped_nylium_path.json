@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/dirt_path",
+  "textures": {
+    "particle": "minecraft:block/warped_nylium",
+    "up": "minecraft:block/dirt_path_top",
+    "side": "fixsimplethingsmod:block/warped_nylium_path_side",
+    "bottom": "minecraft:block/netherrack"
+  }
+}

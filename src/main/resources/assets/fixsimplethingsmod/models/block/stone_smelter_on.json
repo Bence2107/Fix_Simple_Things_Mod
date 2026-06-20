@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "fixsimplethingsmod:block/stone_smelter_front_on",
+    "side": "fixsimplethingsmod:block/stone_smelter_side",
+    "top": "fixsimplethingsmod:block/stone_smelter_top"
+  }
+}
