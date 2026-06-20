@@ -1,13 +1,13 @@
 package net.bence2107.fixsimplethingsmod.event;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.entity.EntityTypeTest;
@@ -22,7 +22,7 @@ public class ModEventHandlers {
         String concreteId = id.replace("_powder", "");
 
         Item concreteItem = BuiltInRegistries.ITEM
-                .get(ResourceLocation.fromNamespaceAndPath("minecraft", concreteId))
+                .get(Identifier.fromNamespaceAndPath("minecraft", concreteId))
                 .map(net.minecraft.core.Holder.Reference::value)
                 .orElse(Items.AIR);
 
@@ -30,9 +30,7 @@ public class ModEventHandlers {
     }
 
     public static void registerEventHandlers() {
-        ServerTickEvents.END_WORLD_TICK.register(world -> {
-            if (world == null) return;
-
+        ServerTickEvents.END_LEVEL_TICK.register(world -> {
             world.getEntities(EntityTypeTest.forClass(ItemEntity.class), item -> isConcretePowder(item.getItem()))
                     .forEach(item -> {
                         BlockPos pos = item.getOnPos();

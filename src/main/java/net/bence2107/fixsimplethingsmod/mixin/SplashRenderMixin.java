@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.network.chat.Component;
 
 import java.util.Random;
 
@@ -29,7 +30,7 @@ public abstract class SplashRenderMixin {
         Random random = new Random();
         if (random.nextFloat() < 0.1f) {
             String customSplash = customSplashes[random.nextInt(customSplashes.length)];
-            this.setSplashText(new SplashRenderer(customSplash));
+            this.setSplashText(new SplashRenderer(Component.literal(customSplash)));
         }
     }
 

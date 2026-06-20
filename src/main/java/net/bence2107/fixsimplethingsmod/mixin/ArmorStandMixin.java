@@ -32,8 +32,8 @@ public abstract class ArmorStandMixin {
         return (ArmorStand) (Object) this;
     }
 
-    @Inject(method = "interactAt", at = @At("HEAD"), cancellable = true)
-    private void onInteract(Player player, Vec3 hitPos, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
+    private void onInteract(Player player, InteractionHand hand, Vec3 location, CallbackInfoReturnable<InteractionResult> cir) {
 
         if (!player.isShiftKeyDown() || hand != InteractionHand.MAIN_HAND) return;
 
