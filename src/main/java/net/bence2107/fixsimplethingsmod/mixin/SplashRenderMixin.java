@@ -1,5 +1,6 @@
 package net.bence2107.fixsimplethingsmod.mixin;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.SplashRenderer;
 import net.minecraft.client.gui.screens.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,9 +29,9 @@ public abstract class SplashRenderMixin {
         };
 
         Random random = new Random();
-        if (random.nextFloat() < 0.1f) {
+        if (random.nextFloat() < 0.2f) {
             String customSplash = customSplashes[random.nextInt(customSplashes.length)];
-            this.setSplashText(new SplashRenderer(Component.literal(customSplash)));
+            this.setSplashText(new SplashRenderer(Component.literal(customSplash).withStyle(ChatFormatting.YELLOW)));
         }
     }
 

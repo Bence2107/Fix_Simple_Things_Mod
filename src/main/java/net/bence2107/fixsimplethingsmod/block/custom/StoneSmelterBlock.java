@@ -34,7 +34,7 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    protected void openContainer(Level level, BlockPos pos, Player player) {
+    protected void openContainer(Level level, @NotNull BlockPos pos, @NotNull Player player) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof StoneSmelterBlockEntity stoneSmelter) {
             player.openMenu(stoneSmelter);
@@ -60,13 +60,13 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new StoneSmelterBlockEntity(pos, state);
     }
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         if (world.isClientSide()) {
             return null;
         }
@@ -80,7 +80,7 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+    public void animateTick(BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (state.getValue(LIT)) {
             double x = pos.getX() + 0.5;
             double y = pos.getY() + 0.45;
@@ -93,7 +93,7 @@ public class StoneSmelterBlock extends AbstractFurnaceBlock {
             double velocityY = random.nextDouble() * 0.05;
             double velocityZ = random.nextDouble() * 0.02 - 0.01;
 
-            Direction facing = state.getValue(BlockStateProperties.FACING);
+            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
             double frontX = x + facing.getStepX() * offset + (facing.getAxis() == Direction.Axis.Z ? spread : 0);
             double frontY = y + spread;
             double frontZ = z + facing.getStepZ() * offset + (facing.getAxis() == Direction.Axis.X ? spread : 0);

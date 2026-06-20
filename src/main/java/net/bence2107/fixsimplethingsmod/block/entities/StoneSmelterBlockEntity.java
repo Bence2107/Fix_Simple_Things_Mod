@@ -28,12 +28,12 @@ public class StoneSmelterBlockEntity extends AbstractFurnaceBlockEntity {
     }
 
     @Override
-    protected @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
+    protected @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory playerInventory) {
         return new FurnaceMenu(syncId, playerInventory, this, this.dataAccess);
     }
 
     @Override
-    protected int getBurnDuration(FuelValues fuelValues, ItemStack stack) {
+    protected int getBurnDuration(@NotNull FuelValues fuelValues, @NotNull ItemStack stack) {
         return super.getBurnDuration(fuelValues, stack);
     }
 

@@ -30,17 +30,16 @@ public class ModEventHandlers {
     }
 
     public static void registerEventHandlers() {
-        ServerTickEvents.END_LEVEL_TICK.register(world -> {
-            world.getEntities(EntityTypeTest.forClass(ItemEntity.class), item -> isConcretePowder(item.getItem()))
-                    .forEach(item -> {
-                        BlockPos pos = item.getOnPos();
-                        BlockState state = world.getBlockState(pos);
+        ServerTickEvents.END_LEVEL_TICK.register(world ->
+                world.getEntities(EntityTypeTest.forClass(ItemEntity.class), item -> isConcretePowder(item.getItem()))
+                .forEach(item -> {
+                    BlockPos pos = item.getOnPos();
+                    BlockState state = world.getBlockState(pos);
 
-                        if (state.getFluidState().is(FluidTags.WATER)) {
-                            ItemStack concrete = getConcreteFromPowder(item.getItem());
-                            item.setItem(concrete);
-                        }
-                    });
-        });
+                    if (state.getFluidState().is(FluidTags.WATER)) {
+                        ItemStack concrete = getConcreteFromPowder(item.getItem());
+                        item.setItem(concrete);
+                    }
+                }));
     }
 }
