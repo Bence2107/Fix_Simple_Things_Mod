@@ -1,7 +1,8 @@
 package net.bence2107.fixsimplethingsmod.mixin;
 
-import net.minecraft.client.gui.screen.SplashTextRenderer;
-import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.SplashRenderer;
+import net.minecraft.client.gui.screens.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,12 +11,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.network.chat.Component;
 
 import java.util.Random;
 
 @Mixin(TitleScreen.class)
 public abstract class SplashRenderMixin {
-    @Shadow @Mutable @Nullable private SplashTextRenderer splashText;
+    @Shadow @Mutable @Nullable private SplashRenderer splash;
 
     @Inject(method = "init", at = @At("RETURN"))
     private void replaceAllSplashes(CallbackInfo ci) {
@@ -27,14 +29,14 @@ public abstract class SplashRenderMixin {
         };
 
         Random random = new Random();
-        if (random.nextFloat() < 0.1f) {
+        if (random.nextFloat() < 0.2f) {
             String customSplash = customSplashes[random.nextInt(customSplashes.length)];
-            this.setSplashText(new SplashTextRenderer(customSplash));
+            this.setSplashText(new SplashRenderer(Component.literal(customSplash).withStyle(ChatFormatting.YELLOW)));
         }
     }
 
     @Unique
-    public void setSplashText(@Nullable SplashTextRenderer splashText) {
-        this.splashText = splashText;
+    public void setSplashText(@Nullable SplashRenderer splashText) {
+        this.splash = splashText;
     }
 }

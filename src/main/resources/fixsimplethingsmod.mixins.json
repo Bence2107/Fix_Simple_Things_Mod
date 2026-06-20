@@ -1,9 +1,9 @@
 {
 	"required": true,
 	"package": "net.bence2107.fixsimplethingsmod.mixin",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ArmorStandEntityMixin",
+		"ArmorStandMixin",
 		"SplashRenderMixin"
 	],
 	"injectors": {

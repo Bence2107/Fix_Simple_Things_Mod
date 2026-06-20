@@ -2,40 +2,43 @@ package net.bence2107.fixsimplethingsmod.actions;
 
 import net.bence2107.fixsimplethingsmod.block.ModBlocks;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
 
 public class ModActions {
-    private static void registerShowelAction(Block blockFrom, Block blockTo ) {
+    private static void registerShovelAction(Block blockFrom, Block blockTo) {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-            if (!(player instanceof ServerPlayerEntity)) {
-                return ActionResult.PASS;
+            if (!(player instanceof ServerPlayer)) {
+                return InteractionResult.PASS;
             }
+
             BlockPos pos = hitResult.getBlockPos();
-            if (world.getBlockState(pos).getBlock() == blockFrom && player.getStackInHand(hand).getItem() instanceof ShovelItem) {
 
-                world.setBlockState(pos, blockTo.getDefaultState());
+            if (world.getBlockState(pos).getBlock() == blockFrom
+                    && player.getItemInHand(hand).getItem() instanceof ShovelItem) {
 
-                world.playSound(null,pos, SoundEvents.BLOCK_GRASS_PLACE, SoundCategory.BLOCKS);
+                world.setBlockAndUpdate(pos, blockTo.defaultBlockState());
 
-                player.swingHand(hand,true);
+                world.playSound(null, pos, SoundEvents.GRASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                return ActionResult.SUCCESS;
+                player.swing(hand, true);
+
+                return InteractionResult.SUCCESS;
             }
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         });
     }
 
-    public static void registerActions(){
-        //Showel Actions:
-        registerShowelAction(Blocks.FARMLAND,Blocks.DIRT_PATH);
-        registerShowelAction(Blocks.WARPED_NYLIUM, ModBlocks.WARPED_NYLIUM_PATH);
-        registerShowelAction(Blocks.CRIMSON_NYLIUM,ModBlocks.CRIMSON_NYLIUM_PATH);
+    public static void registerActions() {
+        // Shovel Actions:
+        registerShovelAction(Blocks.FARMLAND, Blocks.DIRT_PATH);
+        registerShovelAction(Blocks.WARPED_NYLIUM, ModBlocks.WARPED_NYLIUM_PATH);
+        registerShovelAction(Blocks.CRIMSON_NYLIUM, ModBlocks.CRIMSON_NYLIUM_PATH);
     }
 }
